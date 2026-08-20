@@ -24,6 +24,16 @@ function saveUI(){localStorage.setItem(UI_KEY,JSON.stringify({activeCategory:sta
 function restoreUI(){try{const x=JSON.parse(localStorage.getItem(UI_KEY)||"null");if(x){state.activeCategory=x.activeCategory||"speaking";state.activeSubTabs=x.activeSubTabs||{}}}catch{}}
 function tabs(){return state.tabs[state.activeCategory]||[]} function activeTab(){const t=tabs();return t.find(x=>x.id===state.activeSubTabs[state.activeCategory])||t[0]}
 function showError(e){console.error(e);alert(`保存に失敗しました。\n${e.message||e}`)}
+function emailShare(){
+  const url=window.location.href.split("?")[0];
+  const subject="English Studyを使ってみてください";
+  const body=`英語学習用のサイトを作りました。\n\nこちらから開けます：\n${url}\n\nPC・スマホから使えます。`;
+  if(navigator.share){
+    navigator.share({title:subject,text:body,url}).catch(()=>{});
+    return;
+  }
+  window.location.href=`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 async function load(){
   for(const c of Object.keys(categories)){
     let rows=await db("study_tabs",{params:[`category=eq.${encodeURIComponent(c)}`,"select=id,name,category,created_at","order=created_at.asc"]});
@@ -59,7 +69,7 @@ let review=null;
 function startReview(a){if(!a?.items?.length)return;review={a,i:0,revealed:false};dialog("reviewDialog");drawReview()}
 function drawReview(){const x=review.a.items[review.i],n=review.a.items.length;$("#reviewBody").innerHTML=`<div class="review-progress">${review.i+1} / ${n}</div><div class="review-card"><p class="review-label">英語</p><h3>${esc(x.term)}</h3>${review.revealed?`<div class="answer"><strong>${esc(x.meaning)}</strong>${x.how?`<p>🧠 ${esc(x.how)}</p>`:""}${x.example?`<p class="review-example">${esc(x.example)}</p>`:""}</div>`:`<p class="tap-hint">まず意味を思い出してみよう。</p>`}</div>${review.revealed?`<div class="review-buttons"><button class="review-result" data-l="0">😵 忘れた</button><button class="review-result" data-l="1">😐 あやしい</button><button class="review-result good" data-l="2">😊 余裕</button></div>`:`<button class="new-button reveal-button">答えを見る</button>`}`;$(".reveal-button")?.addEventListener("click",()=>{review.revealed=true;drawReview()});$$(' .review-result').forEach(b=>b.onclick=async()=>{try{await db("learning_items",{method:"PATCH",params:[`id=eq.${encodeURIComponent(x.id)}`],body:{level:Number(b.dataset.l),last_reviewed:new Date().toISOString()}});x.level=Number(b.dataset.l)}catch(e){showError(e);return}if(review.i<n-1){review.i++;review.revealed=false;drawReview()}else{$("#reviewBody").innerHTML=`<div class="review-finished"><div class="content-icon">🎉</div><h3>今日の復習、おつかれさま！</h3><p>${n}件を復習しました。</p><button class="new-button" id="closeReview">閉じる</button></div>`;$("#closeReview").onclick=()=>close("reviewDialog")}})}
 
-$("#newTabButton").onclick=addTab;$$('.main-tab').forEach(b=>b.onclick=()=>{state.activeCategory=b.dataset.mainTab;saveUI();render()});$$('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));$("#newArticleButton").onclick=openArticle;$("#newArticleHeaderButton").onclick=openArticle;$("#articleForm").onsubmit=saveArticle;$("#articleList").onclick=e=>{const id=e.target.closest('[data-items]')?.dataset.items,r=e.target.closest('[data-review]')?.dataset.review;if(id){window.currentArticleId=id;$("#itemsInput").value="";dialog("itemsDialog");$("#itemsInput").focus()}if(r)startReview((activeTab()?.articles||[]).find(a=>a.id===r))};$("#itemsForm").onsubmit=saveItems;
+$("#newTabButton").onclick=addTab;$$('.main-tab').forEach(b=>b.onclick=()=>{state.activeCategory=b.dataset.mainTab;saveUI();render()});$$('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));$("#newArticleButton").onclick=openArticle;$("#newArticleHeaderButton").onclick=openArticle;$("#articleForm").onsubmit=saveArticle;$("#articleList").onclick=e=>{const id=e.target.closest('[data-items]')?.dataset.items,r=e.target.closest('[data-review]')?.dataset.review;if(id){window.currentArticleId=id;$("#itemsInput").value="";dialog("itemsDialog");$("#itemsInput").focus()}if(r)startReview((activeTab()?.articles||[]).find(a=>a.id===r))};$("#itemsForm").onsubmit=saveItems;$("#emailShareButton").onclick=emailShare;
 
 // Render the UI even if Supabase is temporarily unavailable. This prevents a reload
 // from leaving the user on the raw static HTML with the Reading controls hidden.
