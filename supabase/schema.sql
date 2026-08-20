@@ -4,6 +4,14 @@
 
 create extension if not exists pgcrypto;
 
+-- Remove policies before removing the old auth-dependent columns.
+drop policy if exists "users manage own study tabs" on public.study_tabs;
+drop policy if exists "users manage own reading articles" on public.reading_articles;
+drop policy if exists "users manage own learning items" on public.learning_items;
+drop policy if exists "public app can manage study tabs" on public.study_tabs;
+drop policy if exists "public app can manage reading articles" on public.reading_articles;
+drop policy if exists "public app can manage learning items" on public.learning_items;
+
 -- Remove the previous auth dependency.
 alter table if exists public.learning_items drop constraint if exists learning_items_user_id_fkey;
 alter table if exists public.reading_articles drop constraint if exists reading_articles_user_id_fkey;
@@ -48,13 +56,6 @@ create index if not exists learning_items_article_idx on public.learning_items(a
 alter table public.study_tabs enable row level security;
 alter table public.reading_articles enable row level security;
 alter table public.learning_items enable row level security;
-
-drop policy if exists "users manage own study tabs" on public.study_tabs;
-drop policy if exists "users manage own reading articles" on public.reading_articles;
-drop policy if exists "users manage own learning items" on public.learning_items;
-drop policy if exists "public app can manage study tabs" on public.study_tabs;
-drop policy if exists "public app can manage reading articles" on public.reading_articles;
-drop policy if exists "public app can manage learning items" on public.learning_items;
 
 create policy "public app can manage study tabs"
 on public.study_tabs for all
