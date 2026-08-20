@@ -59,7 +59,9 @@ function renderGeneric() {
 
 function renderReading() {
   const isReading = state.activeCategory === "reading";
-  $("#genericContent").classList.toggle("hidden", isReading); $("#readingContent").classList.toggle("hidden", !isReading);
+  $("#genericContent").classList.toggle("hidden", isReading);
+  $("#readingContent").classList.toggle("hidden", !isReading);
+  $("#newArticleHeaderButton").classList.toggle("hidden", !isReading);
   if (!isReading) return;
   const tab = activeSubTab(); $("#readingTabTitle").textContent = tab.name;
   const articles = tab.articles || []; const list = $("#articleList"); list.innerHTML = ""; $("#readingEmpty").classList.toggle("hidden", articles.length > 0);
@@ -91,7 +93,9 @@ $("#newTabButton").addEventListener("click", addSubTab);
 $$(".main-tab").forEach((b) => b.addEventListener("click", () => { state.activeCategory = b.dataset.mainTab; persist(); render(); }));
 $$("[data-close]").forEach((b) => b.addEventListener("click", () => closeDialog(b.dataset.close)));
 
-$("#newArticleButton").addEventListener("click", () => { $("#articleForm").reset(); showDialog("articleDialog"); $("#articleTitle").focus(); });
+function openArticleDialog() { $("#articleForm").reset(); showDialog("articleDialog"); $("#articleTitle").focus(); }
+$("#newArticleButton").addEventListener("click", openArticleDialog);
+$("#newArticleHeaderButton").addEventListener("click", openArticleDialog);
 $("#articleForm").addEventListener("submit", (e) => {
   e.preventDefault(); const tab = activeSubTab(); tab.articles ||= [];
   tab.articles.push({ id: `article-${Date.now()}`, title: $("#articleTitle").value.trim(), url: $("#articleUrl").value.trim(), memo: $("#articleMemo").value.trim(), date: new Date().toLocaleDateString("ja-JP"), items: [] });
