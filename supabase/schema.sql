@@ -4,7 +4,6 @@
 
 create extension if not exists pgcrypto;
 
--- Remove policies before removing the old auth-dependent columns.
 drop policy if exists "users manage own study tabs" on public.study_tabs;
 drop policy if exists "users manage own reading articles" on public.reading_articles;
 drop policy if exists "users manage own learning items" on public.learning_items;
@@ -12,7 +11,6 @@ drop policy if exists "public app can manage study tabs" on public.study_tabs;
 drop policy if exists "public app can manage reading articles" on public.reading_articles;
 drop policy if exists "public app can manage learning items" on public.learning_items;
 
--- Remove the previous auth dependency.
 alter table if exists public.learning_items drop constraint if exists learning_items_user_id_fkey;
 alter table if exists public.reading_articles drop constraint if exists reading_articles_user_id_fkey;
 alter table if exists public.study_tabs drop constraint if exists study_tabs_user_id_fkey;
@@ -57,6 +55,7 @@ alter table public.study_tabs enable row level security;
 alter table public.reading_articles enable row level security;
 alter table public.learning_items enable row level security;
 
+-- RLS: no-login app. Any visitor using the publishable key can access these tables.
 create policy "public app can manage study tabs"
 on public.study_tabs for all
 to anon, authenticated
@@ -74,5 +73,12 @@ on public.learning_items for all
 to anon, authenticated
 using (true)
 with check (true);
+
+-- Because automatic table exposure was disabled when the project was created,
+-- explicitly grant the Data API privileges required by the no-login app.
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on table public.study_tabs to anon, authenticated;
+grant select, insert, update, delete on table public.reading_articles to anon, authenticated;
+grant select, insert, update, delete on table public.learning_items to anon, authenticated;
 
 -- Default tabs are created by the app the first time it loads.
