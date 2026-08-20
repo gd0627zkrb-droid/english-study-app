@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#eeeef8" />
   <title>English Study</title>
-  <link rel="stylesheet" href="style.css?v=20260820-3" />
+  <link rel="stylesheet" href="style.css?v=20260820-5" />
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <div class="brand"><span class="brand-mark">E</span><div><p>PERSONAL</p><h1>English Study</h1></div></div>
-      <div class="profile-dot">A</div>
+      <div class="profile-area"><span id="authUser" class="auth-user"></span><button id="logoutButton" class="icon-button hidden" type="button" title="ログアウト">↪</button><div class="profile-dot">A</div></div>
     </header>
     <main class="dashboard">
       <section class="welcome-card"><div><p class="kicker">YOUR ENGLISH WORKSPACE</p><h2>Learn English,<br /><span>your way.</span></h2><p>Speaking, listening, writing and readingを、ひとつの場所で管理。</p></div><div class="decor-orb orb-one"></div><div class="decor-orb orb-two"></div></section>
@@ -25,13 +25,14 @@
           <div id="articleList" class="article-list"></div><div id="readingEmpty" class="content-placeholder"><span>READING</span><strong>まずは「記事を追加」から、今日読んだ記事を登録しましょう。</strong></div>
         </div>
       </section>
-      <section class="quick-stats"><article><span>今日の学習</span><strong id="studyMinutes">0 <small>min</small></strong></article><article><span>作成したタブ</span><strong id="tabCount">4</strong></article><article><span>Learning streak</span><strong>0 <small>days</small></strong></article></section>
+      <section class="quick-stats"><article><span>今日の学習</span><strong id="studyMinutes">0 <small>items</small></strong></article><article><span>作成したタブ</span><strong id="tabCount">4</strong></article><article><span>Learning streak</span><strong>0 <small>days</small></strong></article></section>
     </main>
   </div>
 
+  <dialog id="authDialog"><form id="authForm" class="modal-form"><div class="modal-head"><div><p class="kicker">CLOUD SYNC</p><h2>English Studyにログイン</h2></div></div><p class="modal-note">PCとスマホで同じ学習データを使うため、Supabaseアカウントでログインします。</p><label>メールアドレス<input id="authEmail" type="email" required autocomplete="email" placeholder="you@example.com" /></label><label>パスワード<input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="6文字以上" /></label><p id="authMessage" class="auth-message"></p><div class="modal-actions"><button id="signupButton" class="secondary-button" type="button">新規登録</button><button class="new-button" type="submit">ログイン</button></div></form></dialog>
   <dialog id="articleDialog"><form id="articleForm" class="modal-form"><div class="modal-head"><div><p class="kicker">NEW ARTICLE</p><h2>Reading記事を追加</h2></div><button type="button" class="icon-button" data-close="articleDialog">×</button></div><label>記事タイトル<input id="articleTitle" required placeholder="例：Japan's economy faces new challenges" /></label><label>URL <span class="optional">任意</span><input id="articleUrl" type="url" placeholder="https://www.bbc.com/..." /></label><label>メモ <span class="optional">任意</span><textarea id="articleMemo" rows="2" placeholder="この記事で気になったことなど"></textarea></label><div class="modal-actions"><button type="button" class="secondary-button" data-close="articleDialog">キャンセル</button><button class="new-button" type="submit">記事を保存</button></div></form></dialog>
   <dialog id="itemsDialog"><form id="itemsForm" class="modal-form wide"><div class="modal-head"><div><p class="kicker">WORDS & EXPRESSIONS</p><h2>覚えるものを一括登録</h2></div><button type="button" class="icon-button" data-close="itemsDialog">×</button></div><p class="modal-note">ChatGPTで作ったリストをそのまま貼れます。基本は「単語・表現 / 意味 / 覚え方 / 例文」をタブ区切りで1行ずつ。JSONにも対応しています。</p><div class="paste-example"><strong>例</strong><code>take a toll on　～に悪影響を及ぼす　toll=通行料→ダメージの通行料　Lack of sleep takes a toll on my health.</code></div><textarea id="itemsInput" class="bulk-input" rows="11" required placeholder="take a toll on\t～に悪影響を及ぼす\ttoll=通行料→ダメージの通行料\tLack of sleep takes a toll on my health.\nsubstantial\tかなりの、相当な\tsubstance=中身→中身が多い=かなりの\tThe company made substantial progress."></textarea><div class="modal-actions"><button type="button" class="secondary-button" data-close="itemsDialog">キャンセル</button><button class="new-button" type="submit">登録する</button></div></form></dialog>
   <dialog id="reviewDialog"><div class="review-modal"><div class="modal-head"><div><p class="kicker">REVIEW</p><h2>思い出してみよう</h2></div><button type="button" class="icon-button" data-close="reviewDialog">×</button></div><div id="reviewBody"></div></div></dialog>
-  <script type="module" src="app.js?v=20260820-4"></script>
+  <script type="module" src="app.js?v=20260820-5"></script>
 </body>
 </html>
