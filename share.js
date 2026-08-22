@@ -1,0 +1,2 @@
+const button=document.getElementById('emailShareButton');
+if(button){button.addEventListener('click',async()=>{const url='https://gd0627zkrb-droid.github.io/english-study-app/';const text=`英語学習用のサイトです。\n${url}`;try{if(navigator.share){await navigator.share({title:'English Study',text,url});return}}catch(e){if(e?.name==='AbortError')return}location.href=`mailto:?subject=${encodeURIComponent('English Study')}&body=${encodeURIComponent(text)}`})}
