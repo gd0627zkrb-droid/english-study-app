@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#eeeef8" />
   <title>English Study</title>
-  <link rel="stylesheet" href="style.css?v=20260821-2" />
+  <link rel="stylesheet" href="style.css?v=20260822-1" />
+  <link rel="stylesheet" href="reading-bundle.css?v=20260822-1" />
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <div class="brand"><span class="brand-mark">E</span><div><p>PERSONAL</p><h1>English Study</h1></div></div>
-      <div class="profile-area"><button id="emailShareButton" class="secondary-button email-share-button" type="button">✉ メールで送る</button><span id="authUser" class="auth-user"></span><button id="logoutButton" class="icon-button hidden" type="button" title="ログアウト">↪</button><div class="profile-dot">A</div></div>
+      <div class="profile-area"><button id="emailShareButton" class="secondary-button email-share-button" type="button">✉ メールで送る</button><div class="profile-dot">A</div></div>
     </header>
     <main class="dashboard">
       <section class="welcome-card"><div><p class="kicker">YOUR ENGLISH WORKSPACE</p><h2>Learn English,<br /><span>your way.</span></h2><p>Speaking, listening, writing and readingを、ひとつの場所で管理。</p></div><div class="decor-orb orb-one"></div><div class="decor-orb orb-two"></div></section>
@@ -21,7 +22,7 @@
         <div id="subTabs" class="sub-tabs" role="tablist" aria-label="サブタブ"></div>
         <div id="genericContent" class="workspace-content"><div class="content-icon" id="contentIcon">🎙️</div><h3 id="contentTitle">新しいSpeaking学習を始めよう</h3><p id="contentDescription">このカテゴリーの中に、自分専用の学習タブを追加できます。</p><div class="content-placeholder"><span>Coming next</span><strong>ここに学習コンテンツを追加していきます</strong></div></div>
         <div id="readingContent" class="reading-content hidden">
-          <div class="reading-toolbar"><div><p class="kicker">ARTICLE STUDY</p><h3 id="readingTabTitle">My Reading</h3><p class="reading-hint">BBCなどの記事を1つずつ登録して、覚えたい単語・表現を記事に紐づけて管理します。</p></div><button id="newArticleButton" class="secondary-button">＋ 記事を追加</button></div>
+          <div class="reading-toolbar"><div><p class="kicker">ARTICLE STUDY</p><h3 id="readingTabTitle">My Reading</h3><p class="reading-hint">BBC記事を登録して、ChatGPTの解析結果を一括で取り込みます。</p></div><button id="newArticleButton" class="secondary-button">＋ 記事を追加</button></div>
           <div id="articleList" class="article-list"></div><div id="readingEmpty" class="content-placeholder"><span>READING</span><strong>まずは「記事を追加」から、今日読んだ記事を登録しましょう。</strong></div>
         </div>
       </section>
@@ -29,10 +30,26 @@
     </main>
   </div>
 
-  <dialog id="authDialog"><form id="authForm" class="modal-form"><div class="modal-head"><div><p class="kicker">CLOUD SYNC</p><h2>English Studyにログイン</h2></div></div><p class="modal-note">PCとスマホで同じ学習データを使うため、Supabaseアカウントでログインします。</p><label>メールアドレス<input id="authEmail" type="email" required autocomplete="email" placeholder="you@example.com" /></label><label>パスワード<input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="6文字以上" /></label><p id="authMessage" class="auth-message"></p><div class="modal-actions"><button id="signupButton" class="secondary-button" type="button">新規登録</button><button class="new-button" type="submit">ログイン</button></div></form></dialog>
   <dialog id="articleDialog"><form id="articleForm" class="modal-form"><div class="modal-head"><div><p class="kicker">NEW ARTICLE</p><h2>Reading記事を追加</h2></div><button type="button" class="icon-button" data-close="articleDialog">×</button></div><label>記事タイトル<input id="articleTitle" required placeholder="例：Japan's economy faces new challenges" /></label><label>URL <span class="optional">任意</span><input id="articleUrl" type="url" placeholder="https://www.bbc.com/..." /></label><label>メモ <span class="optional">任意</span><textarea id="articleMemo" rows="2" placeholder="この記事で気になったことなど"></textarea></label><div class="modal-actions"><button type="button" class="secondary-button" data-close="articleDialog">キャンセル</button><button class="new-button" type="submit">記事を保存</button></div></form></dialog>
-  <dialog id="itemsDialog"><form id="itemsForm" class="modal-form wide"><div class="modal-head"><div><p class="kicker">WORDS & EXPRESSIONS</p><h2>覚えるものを一括登録</h2></div><button type="button" class="icon-button" data-close="itemsDialog">×</button></div><p class="modal-note">ChatGPTで作ったリストをそのまま貼れます。基本は「単語・表現 / 意味 / 覚え方 / 例文」をタブ区切りで1行ずつ。JSONにも対応しています。</p><div class="paste-example"><strong>例</strong><code>take a toll on　～に悪影響を及ぼす　toll=通行料→ダメージの通行料　Lack of sleep takes a toll on my health.</code></div><textarea id="itemsInput" class="bulk-input" rows="11" required placeholder="take a toll on\t～に悪影響を及ぼす\ttoll=通行料→ダメージの通行料\tLack of sleep takes a toll on my health.\nsubstantial\tかなりの、相当な\tsubstance=中身→中身が多い=かなりの\tThe company made substantial progress."></textarea><div class="modal-actions"><button type="button" class="secondary-button" data-close="itemsDialog">キャンセル</button><button class="new-button" type="submit">登録する</button></div></form></dialog>
-  <dialog id="reviewDialog"><div class="review-modal"><div class="modal-head"><div><p class="kicker">REVIEW</p><h2>思い出してみよう</h2></div><button type="button" class="icon-button" data-close="reviewDialog">×</button></div><div id="reviewBody"></div></div></dialog>
-  <script type="module" src="app-cloud-rest.js?v=20260821-2"></script>
+
+  <dialog id="bundleDialog"><form id="bundleForm" class="modal-form wide"><div class="modal-head"><div><p class="kicker">CHATGPT IMPORT</p><h2>ChatGPTの結果を一括登録</h2></div><button type="button" class="icon-button" data-close="bundleDialog">×</button></div><p class="bundle-help">ChatGPTの回答を、下の4つの見出し付きでそのまま貼り付けます。単語は <strong>単語・表現 | 意味 | 記事中の使われ方</strong> の順で1行ずつ。</p><div class="bundle-template">【英文】
+BBCの英文...
+
+【翻訳】
+日本語訳...
+
+【単語・表現】
+relocate | 移転する、転居する | relocate from the US
+resume | 再開する、復帰する | resume their roles
+
+【文法・構文】
+① It is understood (that) ~
+意味：〜とみられている
+記事中：It is understood the move was not discussed.
+ポイント：ニュースで頻出</div><textarea id="bundleInput" class="bulk-input" rows="16" required placeholder="ここにChatGPTの回答を全部貼り付け"></textarea><div class="modal-actions"><button type="button" class="secondary-button" data-close="bundleDialog">キャンセル</button><button class="new-button" type="submit">4項目を登録</button></div></form></dialog>
+
+  <dialog id="detailDialog"><div class="detail-shell"><div class="detail-title-row"><div><p class="kicker">READING LESSON</p><h2 id="detailTitle"></h2><div id="detailSource" class="detail-source"></div></div><button type="button" class="icon-button" data-close="detailDialog">×</button></div><div class="detail-tabs"><button type="button" class="detail-tab active" data-detail-tab="english">英文</button><button type="button" class="detail-tab" data-detail-tab="translation">翻訳</button><button type="button" class="detail-tab" data-detail-tab="vocab">単語・表現</button><button type="button" class="detail-tab" data-detail-tab="grammar">文法・構文</button></div><div id="detailBody" class="detail-body"></div></div></dialog>
+
+  <script type="module" src="app-reading-bundle.js?v=20260822-1"></script>
 </body>
 </html>
