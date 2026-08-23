@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#eeeef8" />
   <title>English Study</title>
-  <link rel="stylesheet" href="style.css?v=20260823-5" />
-  <link rel="stylesheet" href="reading-bundle.css?v=20260823-5" />
+  <link rel="stylesheet" href="style.css?v=20260823-6" />
+  <link rel="stylesheet" href="reading-bundle.css?v=20260823-6" />
 </head>
 <body>
   <div class="app-shell">
@@ -36,7 +36,7 @@
 
   <dialog id="podcastDialog"><form id="podcastForm" class="modal-form"><div class="modal-head"><div><p class="kicker">NEW PODCAST</p><h2>Listening Podcastを追加</h2></div><button type="button" class="icon-button" data-close="podcastDialog">×</button></div><label>Podcastタイトル<input id="podcastTitle" required placeholder="例：BBC 6 Minute English - How to..." /></label><label>URL <span class="optional">任意</span><input id="podcastUrl" type="url" placeholder="https://..." /></label><label>メモ <span class="optional">任意</span><textarea id="podcastMemo" rows="2" placeholder="気になったポイントなど"></textarea></label><div class="modal-actions"><button type="button" class="secondary-button" data-close="podcastDialog">キャンセル</button><button class="new-button" type="submit">Podcastを保存</button></div></form></dialog>
 
-  <dialog id="listeningBundleDialog"><form id="listeningBundleForm" class="modal-form wide"><div class="modal-head"><div><p class="kicker">CHATGPT IMPORT / EDIT</p><h2>Listeningデータを編集・追加</h2></div><button type="button" class="icon-button" data-close="listeningBundleDialog">×</button></div><p class="bundle-help">前回の内容を読み込んで編集できます。同じ単語・表現は更新、新しいものは追加され、既存データは残ります。</p><div class="bundle-template">【英文】
+  <dialog id="listeningBundleDialog"><form id="listeningBundleForm" class="modal-form wide"><div class="modal-head"><div><p class="kicker">CHATGPT IMPORT / EDIT</p><h2>Listeningデータを編集・追加</h2></div><button type="button" class="icon-button" data-close="listeningBundleDialog">×</button></div><p class="bundle-help">この入力欄の内容がそのまま保存内容になります。消した英文・翻訳・単語・文法は保存時に削除されます。</p><div class="bundle-template">【英文】
 Podcastの文字起こし...
 
 【翻訳】
@@ -55,7 +55,7 @@ Podcast中：You're supposed to call first.
 
   <dialog id="articleDialog"><form id="articleForm" class="modal-form"><div class="modal-head"><div><p class="kicker">NEW ARTICLE</p><h2>Reading記事を追加</h2></div><button type="button" class="icon-button" data-close="articleDialog">×</button></div><label>記事タイトル<input id="articleTitle" required placeholder="例：Japan's economy faces new challenges" /></label><label>URL <span class="optional">任意</span><input id="articleUrl" type="url" placeholder="https://www.bbc.com/..." /></label><label>メモ <span class="optional">任意</span><textarea id="articleMemo" rows="2" placeholder="この記事で気になったことなど"></textarea></label><div class="modal-actions"><button type="button" class="secondary-button" data-close="articleDialog">キャンセル</button><button class="new-button" type="submit">記事を保存</button></div></form></dialog>
 
-  <dialog id="bundleDialog"><form id="bundleForm" class="modal-form wide"><div class="modal-head"><div><p class="kicker">CHATGPT IMPORT / EDIT</p><h2>Readingデータを編集・追加</h2></div><button type="button" class="icon-button" data-close="bundleDialog">×</button></div><p class="bundle-help">前回の内容を読み込んで編集できます。同じ単語・表現は更新、新しいものは追加され、既存データは残ります。</p><div class="bundle-template">【英文】
+  <dialog id="bundleDialog"><form id="bundleForm" class="modal-form wide"><div class="modal-head"><div><p class="kicker">CHATGPT IMPORT / EDIT</p><h2>Readingデータを編集・追加</h2></div><button type="button" class="icon-button" data-close="bundleDialog">×</button></div><p class="bundle-help">この入力欄の内容がそのまま保存内容になります。消した英文・翻訳・単語・文法は保存時に削除されます。</p><div class="bundle-template">【英文】
 BBCの英文...
 
 【翻訳】
@@ -73,7 +73,7 @@ resume | 再開する、復帰する | resume their roles
 
   <dialog id="detailDialog"><div class="detail-shell"><div class="detail-title-row"><div><p class="kicker">READING LESSON</p><h2 id="detailTitle"></h2><div id="detailSource" class="detail-source"></div></div><button type="button" class="icon-button" data-close="detailDialog">×</button></div><div class="detail-tabs"><button type="button" class="detail-tab active" data-detail-tab="english">英文</button><button type="button" class="detail-tab" data-detail-tab="translation">翻訳</button><button type="button" class="detail-tab" data-detail-tab="vocab">単語・表現</button><button type="button" class="detail-tab" data-detail-tab="grammar">文法・構文</button></div><div id="detailBody" class="detail-body"></div></div></dialog>
 
-  <script src="bundle-normalizer.js?v=20260823-5"></script>
-  <script type="module" src="app-study-bundle.js?v=20260823-5"></script>
+  <script src="bundle-normalizer.js?v=20260823-6"></script>
+  <script type="module" src="app-study-bundle.js?v=20260823-6"></script>
 </body>
 </html>
